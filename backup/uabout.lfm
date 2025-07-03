@@ -1,0 +1,42 @@
+object FormAbout: TFormAbout
+  Left = 407
+  Height = 240
+  Top = 114
+  Width = 361
+  Caption = 'About'
+  ClientHeight = 240
+  ClientWidth = 361
+  LCLVersion = '4.0.0.4'
+  object Image1: TImage
+    Left = 8
+    Height = 128
+    Top = 8
+    Width = 128
+  end
+  object GroupBox1: TGroupBox
+    Left = 152
+    Height = 184
+    Top = 8
+    Width = 201
+    Caption = 'Info'
+    ClientHeight = 164
+    ClientWidth = 197
+    TabOrder = 0
+    object Label1: TLabel
+      Left = 8
+      Height = 45
+      Top = 7
+      Width = 152
+      Caption = 'EP Competence Manager 1.0'#13#10#13#10'(c) 2025 Rastrelly'
+    end
+  end
+  object Button1: TButton
+    Left = 280
+    Height = 25
+    Top = 200
+    Width = 75
+    Caption = 'OK'
+    TabOrder = 1
+    OnClick = Button1Click
+  end
+end

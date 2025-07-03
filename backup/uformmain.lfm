@@ -1,0 +1,457 @@
+object FormMain: TFormMain
+  Left = 455
+  Height = 547
+  Top = 276
+  Width = 820
+  Caption = 'EP Competence Manager'
+  ClientHeight = 547
+  ClientWidth = 820
+  Constraints.MinWidth = 750
+  Menu = MainMenu1
+  Position = poScreenCenter
+  LCLVersion = '4.0.0.4'
+  OnCreate = FormCreate
+  OnResize = FormResize
+  object gbDisc: TGroupBox
+    Left = 0
+    Height = 515
+    Top = 32
+    Width = 250
+    Align = alLeft
+    Caption = 'Components (Disciplines)'
+    ClientHeight = 495
+    ClientWidth = 246
+    TabOrder = 0
+    object Panel2: TPanel
+      Left = 0
+      Height = 32
+      Top = 0
+      Width = 246
+      Align = alTop
+      ClientHeight = 32
+      ClientWidth = 246
+      TabOrder = 0
+      object RBExtDisc: TRadioButton
+        Left = 1
+        Height = 30
+        Top = 1
+        Width = 54
+        Align = alLeft
+        Caption = 'Extend'
+        TabOrder = 0
+        OnChange = RBExtDiscChange
+        OnClick = RBExtDiscClick
+      end
+    end
+    object LBDisciplines: TListBox
+      Left = 0
+      Height = 463
+      Top = 32
+      Width = 246
+      Align = alClient
+      ExtendedSelect = False
+      ItemHeight = 0
+      TabOrder = 1
+      OnClick = LBDisciplinesClick
+    end
+  end
+  object gbComp: TGroupBox
+    Left = 250
+    Height = 515
+    Top = 32
+    Width = 250
+    Align = alLeft
+    Caption = 'Competencies'
+    ClientHeight = 495
+    ClientWidth = 246
+    TabOrder = 1
+    object Panel3: TPanel
+      Left = 0
+      Height = 32
+      Top = 0
+      Width = 246
+      Align = alTop
+      ClientHeight = 32
+      ClientWidth = 246
+      TabOrder = 0
+      object RBExtComp: TRadioButton
+        Left = 1
+        Height = 30
+        Top = 1
+        Width = 54
+        Align = alLeft
+        Caption = 'Extend'
+        TabOrder = 0
+        OnChange = RBExtCompChange
+        OnClick = RBExtCompClick
+      end
+    end
+    object LBCompets: TCheckListBox
+      Left = 0
+      Height = 463
+      Top = 32
+      Width = 246
+      Align = alClient
+      ExtendedSelect = False
+      ItemHeight = 0
+      TabOrder = 1
+      OnClick = LBCompetsClick
+      OnClickCheck = LBCompetsClickCheck
+    end
+  end
+  object gbRes: TGroupBox
+    Left = 500
+    Height = 515
+    Top = 32
+    Width = 250
+    Align = alLeft
+    Caption = 'Results'
+    ClientHeight = 495
+    ClientWidth = 246
+    TabOrder = 2
+    object Panel4: TPanel
+      Left = 0
+      Height = 32
+      Top = 0
+      Width = 246
+      Align = alTop
+      ClientHeight = 32
+      ClientWidth = 246
+      TabOrder = 0
+      object RBExtRes: TRadioButton
+        Left = 1
+        Height = 30
+        Top = 1
+        Width = 54
+        Align = alLeft
+        Caption = 'Extend'
+        TabOrder = 0
+        OnChange = RBExtResChange
+        OnClick = RBExtResClick
+      end
+    end
+    object LBResults: TCheckListBox
+      Left = 0
+      Height = 463
+      Top = 32
+      Width = 246
+      Align = alClient
+      ExtendedSelect = False
+      ItemHeight = 0
+      TabOrder = 1
+      OnClick = LBResultsClick
+      OnClickCheck = LBResultsClickCheck
+    end
+  end
+  object Panel1: TPanel
+    Left = 0
+    Height = 32
+    Top = 0
+    Width = 820
+    Align = alTop
+    ClientHeight = 32
+    ClientWidth = 820
+    TabOrder = 3
+    object btnOpenDisciplines: TSpeedButton
+      Left = 33
+      Height = 30
+      Hint = 'Open Disciplines File'
+      Top = 1
+      Width = 32
+      Align = alLeft
+      Images = ImgList
+      ImageIndex = 0
+      ImageWidth = 32
+      OnClick = btnOpenDisciplinesClick
+    end
+    object btnOpenComps: TSpeedButton
+      Left = 65
+      Height = 30
+      Hint = 'Open Competencies File'
+      Top = 1
+      Width = 32
+      Align = alLeft
+      Images = ImgList
+      ImageIndex = 1
+      ImageWidth = 32
+      OnClick = btnOpenCompsClick
+    end
+    object btnOpenResults: TSpeedButton
+      Left = 97
+      Height = 30
+      Hint = 'Open Education Results File'
+      Top = 1
+      Width = 32
+      Align = alLeft
+      Images = ImgList
+      ImageIndex = 2
+      ImageWidth = 32
+      OnClick = btnOpenResultsClick
+    end
+    object btnSaveMatrix: TSpeedButton
+      Left = 129
+      Height = 30
+      Hint = 'Save Matrix Composition'
+      Top = 1
+      Width = 32
+      Align = alLeft
+      Images = ImgList
+      ImageIndex = 3
+      ImageWidth = 32
+      OnClick = btnSaveMatrixClick
+    end
+    object btnExportMatrix: TSpeedButton
+      Left = 161
+      Height = 30
+      Hint = 'Export Matrix Composition to HTML'
+      Top = 1
+      Width = 32
+      Align = alLeft
+      Images = ImgList
+      ImageIndex = 4
+      ImageWidth = 32
+      OnClick = btnExportMatrixClick
+    end
+    object btnOpenMatrix: TSpeedButton
+      Left = 1
+      Height = 30
+      Hint = 'Open Matrix File'
+      Top = 1
+      Width = 32
+      Align = alLeft
+      Images = ImgList
+      ImageIndex = 5
+      ImageWidth = 32
+      OnClick = btnOpenMatrixClick
+    end
+    object RBExtNone: TRadioButton
+      Left = 225
+      Height = 30
+      Top = 1
+      Width = 84
+      Align = alLeft
+      Caption = 'Extend none'
+      Checked = True
+      TabOrder = 0
+      TabStop = True
+      OnChange = RBExtNoneChange
+      OnClick = RBExtNoneClick
+    end
+    object btnShowTools: TSpeedButton
+      Left = 193
+      Height = 30
+      Hint = 'Data Manipulation Tools'
+      Top = 1
+      Width = 32
+      Align = alLeft
+      Images = ImgList
+      ImageIndex = 6
+      ImageWidth = 32
+      OnClick = btnShowToolsClick
+    end
+  end
+  object ODDisciplines: TOpenDialog
+    Title = 'Open Disciplines File'
+    DefaultExt = '.txt'
+    Filter = 'Text Files (*.txt)|*.txt|All Files (*.*)|*.*'
+    Left = 760
+    Top = 48
+  end
+  object ODComps: TOpenDialog
+    Title = 'Open Competences File'
+    DefaultExt = '.txt'
+    Filter = 'Text Files (*.txt)|*.txt|All Files (*.*)|*.*'
+    Left = 760
+    Top = 104
+  end
+  object ODResults: TOpenDialog
+    Title = 'Open Results File'
+    DefaultExt = '.txt'
+    Filter = 'Text Files (*.txt)|*.txt|All Files (*.*)|*.*'
+    Left = 760
+    Top = 168
+  end
+  object SDMatrix: TSaveDialog
+    Title = 'Save Matrix File'
+    DefaultExt = '.sav'
+    Filter = 'Matrix Files (*.sav)|*.sav|All Files (*.*)|*.*'
+    Left = 760
+    Top = 304
+  end
+  object SDMatrixExport: TSaveDialog
+    Title = 'Export Matrix File'
+    DefaultExt = '.html'
+    Filter = 'HTML File|*.html'
+    Left = 760
+    Top = 360
+  end
+  object MainMenu1: TMainMenu
+    Images = ImgList
+    Left = 760
+    Top = 424
+    object MenuItem1: TMenuItem
+      Caption = 'File'
+      OnClick = MenuItem1Click
+      object MenuItem10: TMenuItem
+        Caption = 'Open Matrix'
+        ImageIndex = 5
+        ShortCut = 16463
+        OnClick = MenuItem10Click
+      end
+      object MenuItem2: TMenuItem
+        Caption = 'Open Disciplines File'
+        ImageIndex = 0
+        ShortCut = 49220
+        OnClick = MenuItem2Click
+      end
+      object MenuItem3: TMenuItem
+        Caption = 'Open Competences File'
+        ImageIndex = 1
+        ShortCut = 49219
+        OnClick = MenuItem3Click
+      end
+      object MenuItem4: TMenuItem
+        Caption = 'Open Education Results File'
+        ImageIndex = 2
+        ShortCut = 49234
+        OnClick = MenuItem4Click
+      end
+      object MenuItem5: TMenuItem
+        Caption = 'Save Matrix'
+        ImageIndex = 3
+        ShortCut = 16467
+        OnClick = MenuItem5Click
+      end
+      object MenuItem6: TMenuItem
+        Caption = 'Export Matrix to HTML'
+        ImageIndex = 4
+        ShortCut = 16453
+        OnClick = MenuItem6Click
+      end
+      object MenuItem7: TMenuItem
+        Caption = 'Close Program'
+        ShortCut = 16472
+        OnClick = MenuItem7Click
+      end
+    end
+    object MenuItem11: TMenuItem
+      Caption = 'Edit'
+      object MenuItem12: TMenuItem
+        Caption = 'Data Manipulation Tools'
+        ImageIndex = 6
+        ShortCut = 16468
+        OnClick = MenuItem12Click
+      end
+    end
+    object MenuItem8: TMenuItem
+      Caption = 'Help'
+      object MenuItem9: TMenuItem
+        Caption = 'About'
+        OnClick = MenuItem9Click
+      end
+    end
+  end
+  object ImgList: TImageList
+    Left = 760
+    Top = 472
+    Bitmap = {
+      4C7A070000001000000010000000010400000000000078DAED984B4C134118C7
+      391123212A51541E82444B8822B522108A505B1F2862254A4BA0081604952A28
+      BE13B4121FB1F8E6A1F1198DE0014DD4181FD198267A516F9E3492A8278F7AD3
+      83F193FF24B3E92EBBDB768A4913BBC93FDD9DF97E33DFCEF6BFFB65E2E2223F
+      52264FF186AAC409132C4ABED05C43B59E0B74A0BB9F6A36EEA39CFAFB64D8F9
+      99A9CAD9CEDA21B3E32C610C351EFD4FEE5DA13D2D1B2516AAB659581B84B8EC
+      1933FDCA5C02F9DCF223325E4BC851C90FF8BA64B9EB09F328F357E6AEA7C075
+      E0BC48EE227C60EE9C874472E7BCC9EA11CA9DF3A2B9E3C8CFCC12CE1D8731BF
+      4A38F770FD131785C778F8BFD9D54D67DC7BA8696DABCC43AEF206D60EE9F91F
+      FD5F77D451CFCA52D99A372C32B23648CFFF9C17F53FF8C7B595C2FE07AFCC3D
+      1CFF838FC4FFE1F031FFC7FC3FDEFE5FEEB84576C723B2AD3A2EF35089F5306B
+      87F4FC8FFE26E747AA3077C9D6DC92BB8EB5417AFEE7BCA8FFC13B570D0BFB1F
+      BC32F770FC0F3E12FF87C3C7FC1FF37FE0F1EBDC26FA71AC81E9F6D5B374FE54
+      370DDFECA71B03E764BA74FEA414F7D06D979E03AEF1ED85C0E27920FEC4A1A3
+      32EDDFBD578A1B765446258FFB471D2FCA3FEBDA41431EB7A6B4F88116373D3D
+      7D2C248DF4ED1EC3A3FDF7A77721E9CFF38B313E8AF8E28C0CAF6B85D57B68FB
+      E690845830E3E5FFF291D36479DFCD14CCFF3CAEF05A8B943FAE8D2FB73105F3
+      1F8FCBEBAB8D4A3E98FF83F18D837BA9B26FABA6B478F7F1361AB8D513923A5F
+      5F18C3A35DEBFF76F1C40B7AFBE0B5743DF4E561D8BCC974571A438B474C3061
+      8C48F866D7234D1E79AA090C6745EF9FB3227CE0DAABF1D3F3E77A2BAA9687EC
+      7FC48289A6FA7F3CF6FF3EF88ED0AE358DB29AABB5D44497EBAD4C5BD654EAEE
+      FF3D38703DA2FDBFC1B68E88F6FF9023FA7A9F7E97F466E4A7EC1A0AB6FFC763
+      5CFDDF98F89CBC5D6FFF0FF1C1E6D6ABFF798CF23C3017BDFA9F3381AC5EEECA
+      FA3F18AF57FF6BAD3BCEFFB7FA5F396F765696EADCB89F7969E958179946BB64
+      6ADBB499EC76BB5F6D1EF03C6EEAB4649A999A2663ED15E5D4EBF3D1CEF60E4A
+      4949B128F9A2390689C56F87A779CC1875A3F512BEC96A63701E314B2C36723A
+      D6ABF24D8D757E5B99D5BB7871BE6C2D0AB2E6D0A48913A538F00B8C26894D4D
+      9FCFEA0ABE86CE0DD57EB535C0BAA5256552C6B43CEA6CEF247351313B2F5879
+      90F2326D9494544FC9C9DB2931B1D40B49CF60F47C69F11D2A5CD843B3673553
+      42C212268C51B2C24105C66A9A9E54C6FA1003CDCFE9233E067EF9F7B1D4FC84
+      562F7B457C3C4FD34B760DA18FC7190CFD141F9F6151F25C88D7FB0E83E75E10
+      E5F12E17E5B3D3EDACCE13E117E5B452EEAC22D9BBC09056E237E5FA5479C443
+      FCDBA3F60EE05E423F62CB4CBBA4F87FE9F3BFD1B58E91
+    }
+    BitmapAdv = {
+      4C69010000004C7A070000002000000020000000640300000000000078DAED9C
+      BF6A154114C6D3E70D52490A09366A145134A4B2B2118B88580684DC42106CB5
+      122CAD25AFA0B59D2FE013888558F816C2CA89AC393B9EF97BE6CC4CDCEFC057
+      DCFD33BF7366F7EEDEEFCE305B5B8811E2E6A5DDC94AA9FCBB47EFBCA2FD975F
+      7C17153AB784FFE9E3E94231B67B3C694DFC1AF7858F1F626BD4932F5D9311F9
+      ADFABE25DFF77D188DDFB2EF5BF143CF22F07793DE75166CF0CFF93DD8E09FFF
+      FEECC106FF0FBF17DBD27FC0D92110F0FF39FC1FCF9F2E1463BBC793D6C4AFED
+      FF53D956FEDF9A1FF3BFA3F07BF9FFD6B58FC8EFE9FF5BD70E3EFC37FC3FF8F0
+      FFF0FFF0FF0804FC7F4FFF7FFCF8EB4231B67B3C694DFCDAFE3F956DE5FFADF9
+      31FF3B0ABF97FF6F5DFB88FC9EFEBF75EDE0C37FC3FF830FFF0FFF0FFF8F5863
+      4CA7C79324696E778EA4365F1E1E4E125F1A47A636369B93BFA2CF6F5FBF4912
+      1D2FB559C29FBFCFE0830F7E5BBEAB1EF5974ACBB750884FFBACC41921FEAF6F
+      5F4C043EF8E0830F3EF8E02F83BFA7ADF89C01C73D563CFCF97E92A4F5FF529B
+      574F1E4C12FFDAE7CD3FD2FA7FA9CD127EA9FF011F7CF0757C8DFFAF557FA9B4
+      7C0B85F8B4CF4A9C11E25BFDFEB0E6EFEF7FE8CE0FE5D08AEFCBA1255FCA2187
+      EFB655AADE7C9E432FFE9CC31AEBBFA8F7FF45FEFEAFF5F9AF79FFF1F7B4159F
+      33E0B81198FF2FF347587F8FCFD788F17D7347B4FC5EF3FF39BFD7FA7F96FC94
+      F5EF46E0F75CFF4FE29746C9FA773EBE5B8BB42DB4BF74FD3D1F27C497F6D5E4
+      D7AA3D95AFB9EE1ABE75DFC7E6BF5BF77D6D7E6EEDB9FCDCDA35F3FF5BF47D4D
+      7E49ED397C8BBEF7CD7F6F557B886FF9CCC1FC7FCCFF47FC7F3E99C69D72DB3D
+      D8BB927A3F0735F37372A073881F6B3B457CEC2F35875A7C69FC31E79AFA7278
+      74F464BA71EBF699427C3E3ECAC720B5FCB9ED398F583FF031DA941C7C7CE2B9
+      EDA6F2A5BEC8BD07E69A4BF8EE5C150D9F2B87CFDB2FE1F3BE4CE5F3F172DE7E
+      AC0FB4F7E0FCFB91CF577019A57CFEFCE339F0EDC4BE7EE7D9746FEFFE997676
+      5E2DA4790E6F6F1F2CC47398B771BE7BBC9B8B2F1FDA4EFFF9B8E74BE239B8B5
+      87CE0BE540DB680CC55DFF232507A976695D12528CEF2A940FE5E0E3F8C60473
+      F9B17C72C72443D73F95AF19131D812F3D1FD6C6777368C1E7EC127ECDDAD7C4
+      4FF5A5B4AF065FE385E7E373F816DE9BB7E5F25BFB7CFCB76013BF019AB93A34
+    }
+  end
+  object ODMatrix: TOpenDialog
+    Title = 'Open Matrix File'
+    DefaultExt = '.sav'
+    Filter = 'Matrix Files (*.sav)|*.sav|All Files (*.*)|*.*'
+    Left = 760
+    Top = 240
+  end
+  object CDDiscColour: TColorDialog
+    Color = clBlack
+    CustomColors.Strings = (
+      'ColorA=000000'
+      'ColorB=000080'
+      'ColorC=008000'
+      'ColorD=008080'
+      'ColorE=800000'
+      'ColorF=800080'
+      'ColorG=808000'
+      'ColorH=808080'
+      'ColorI=C0C0C0'
+      'ColorJ=0000FF'
+      'ColorK=00FF00'
+      'ColorL=00FFFF'
+      'ColorM=FF0000'
+      'ColorN=FF00FF'
+      'ColorO=FFFF00'
+      'ColorP=FFFFFF'
+      'ColorQ=C0DCC0'
+      'ColorR=F0CAA6'
+      'ColorS=F0FBFF'
+      'ColorT=A4A0A0'
+    )
+    Left = 672
+    Top = 48
+  end
+end
