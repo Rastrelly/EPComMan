@@ -26,7 +26,7 @@ begin
   Application.CreateForm(TFormMain, FormMain);
   Application.CreateForm(TFormTools, FormTools);
   Application.CreateForm(TFormMatrixExport, FormMatrixExport);
-  Application.CreateForm(TForm1, Form1);
+  Application.CreateForm(TFormAbout, FormAbout);
   Application.Run;
 end.
 

@@ -18,7 +18,7 @@
       <UseVersionInfo Value="True"/>
       <AutoIncrementBuild Value="True"/>
       <MajorVersionNr Value="1"/>
-      <BuildNr Value="20"/>
+      <BuildNr Value="21"/>
       <StringTable CompanyName="HSI games" LegalCopyright="(c) 2025 Rastrelly" ProductName="EP Competence Manager" ProductVersion="1.0"/>
     </VersionInfo>
     <BuildModes>

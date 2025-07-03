@@ -21,7 +21,7 @@
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="uFormMain"/>
         <TopLine Value="576"/>
-        <CursorPos X="85" Y="578"/>
+        <CursorPos X="18" Y="578"/>
         <UsageCount Value="34"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -63,7 +63,7 @@
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="uAbout"/>
         <EditorIndex Value="1"/>
-        <CursorPos X="77" Y="7"/>
+        <CursorPos X="5" Y="7"/>
         <UsageCount Value="20"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
