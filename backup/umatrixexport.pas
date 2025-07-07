@@ -18,6 +18,7 @@ type
     btnPrepHTML: TButton;
     cbShortComp: TCheckBox;
     cbShortRes: TCheckBox;
+    cbAttachList: TCheckBox;
     GroupBox1: TGroupBox;
     Memo1: TMemo;
     Panel1: TPanel;
@@ -42,6 +43,7 @@ var
   resTitles:array of string;
   //container to export html
   htmlData:TStringList;
+
 
 implementation
 
@@ -124,8 +126,8 @@ begin
     end;
     if (hitsRes=0) then Memo1.Lines.Add('[!!!] '+rests[i]+' has no associated disciplines!');
   end;
-  Memo1.Lines.Add('[!] Prep complete.');
-  Memo1.Lines.Add('[!] Ready to export.');
+  Memo1.Lines.Add('[!] Data prep complete.');
+  Memo1.Lines.Add('[!] Run HTML prep to finish export preparations..');
 end;
 
 procedure TFormMatrixExport.btnPrepDataClick(Sender: TObject);
@@ -149,6 +151,8 @@ end;
 procedure TFormMatrixExport.PrepHTML;
 var i,j:integer;
 begin
+  Memo1.Lines.Clear;
+  Memo1.Lines.Add('[!] Starting HTML data prep');
   htmlData:=TStringList.Create;
   htmlData.Clear;
   htmlData.Add('<!DOCTYPE html>');
@@ -161,6 +165,8 @@ begin
   htmlData.Add('</head>');
 
   htmlData.Add('<body>');
+  htmlData.Add('<h2>Results and competences matrix</h2>');
+  htmlData.Add('<div>');
   htmlData.Add('<table>');
   //here goes the actual output
   //first row is comps + cell 0 is results header
@@ -188,8 +194,42 @@ begin
   end;
 
   htmlData.Add('</table>');
+  htmlData.Add('</div>');
+
+  //now fill list if needed
+  if (cbAttachList.Checked) then
+  begin
+    Memo1.Lines.Add('[!] Forming attachment list');
+    htmlData.Add('<div>');
+    htmlData.Add('<h2>Disciplines list</h2>');
+    for i:=0 to nDisc-1 do
+    begin
+      htmlData.Add('<h3>'+discs[i].epedname+'. '+discs[i].name+'</h3>');
+      htmlData.Add('<h4>Competences</h4>');
+      htmlData.Add('<ul>');
+      for j:=0 to 1000 do
+      begin
+        if (discs[i].competIds[j]) and (j<nComp) then
+          htmlData.Add('<li>'+comps[j]+'</li>');
+      end;
+      htmlData.Add('</ul>');
+      htmlData.Add('<h4>Education Results</h4>');
+      htmlData.Add('<ul>');
+      for j:=0 to 1000 do
+      begin
+        if (discs[i].resultIds[j]) and (j<nResult) then
+          htmlData.Add('<li>'+rests[j]+'</li>');
+      end;
+      htmlData.Add('</ul>');
+    end;
+    htmlData.Add('</div>');
+
+  end;
+
   htmlData.Add('</body>');
   htmlData.Add('</html>');
+  Memo1.Lines.Add('[!] HTML data prep complete');
+  Memo1.Lines.Add('[!] Ready to export.');
 end;
 
 procedure TFormMatrixExport.ExportData(fileName:string);

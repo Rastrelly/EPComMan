@@ -28,6 +28,8 @@ type
     btnRemComp: TButton;
     btnAddComp: TButton;
     btnRestUp: TButton;
+    cbIgnoreInMatrix: TCheckBox;
+    cbFreeChoice: TCheckBox;
     edDiscCredits: TEdit;
     edDiscSemester: TEdit;
     edDiscName: TEdit;
@@ -193,7 +195,8 @@ begin
   FormMain.updateDiscipline(selectedDiscId,
     edDiscName.Text,edDiscEpIDName.Text,StrToInt(edDiscSemester.Text),
     StrToInt(edDiscCredits.Text),StrToInt(edDiscLectures.Text),
-    StrToInt(edDiscLabWork.Text),StrToInt(edDiscPractice.Text),shpDiscColour.Brush.Color);
+    StrToInt(edDiscLabWork.Text),StrToInt(edDiscPractice.Text),shpDiscColour.Brush.Color,cbFreeChoice.Checked,
+    cbIgnoreInMatrix.Checked);
   FormMain.constructUI;
   selectedDiscId:=selStore;
   FormMain.LBDisciplines.ItemIndex:=selectedDiscId;

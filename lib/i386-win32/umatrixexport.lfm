@@ -70,6 +70,17 @@ object FormMatrixExport: TFormMatrixExport
       TabOrder = 4
       OnClick = btnExportDataClick
     end
+    object cbAttachList: TCheckBox
+      Left = 554
+      Height = 48
+      Top = 1
+      Width = 74
+      Align = alLeft
+      Caption = 'Attach List'
+      Checked = True
+      State = cbChecked
+      TabOrder = 5
+    end
   end
   object GroupBox1: TGroupBox
     Left = 0

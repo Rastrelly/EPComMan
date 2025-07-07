@@ -19,6 +19,8 @@ type
     colour:TColor;
     competIds:array [0..1000] of boolean;
     resultIds:array [0..1000] of boolean;
+    freeChoice:boolean;
+    ignoreForMatrix:boolean;
     constructor Create;
   end;
 
@@ -84,7 +86,8 @@ type
     procedure UpdateRest(id:integer; vName:string);
     procedure removeDiscipline(id:integer);
     procedure moveDiscipline(dir:integer; id:integer);
-    procedure updateDiscipline(id:integer; vName:string; vEdName:string; vSem:integer; vCred:integer; vLec:integer; vLab:integer; vPract:integer; clr:TColor);
+    procedure updateDiscipline(id:integer; vName:string; vEdName:string; vSem:integer; vCred:integer; vLec:integer; vLab:integer; vPract:integer; clr:TColor;
+      vFreeChoice:boolean; vIgnoreMatrix:boolean);
     procedure btnOpenMatrixClick(Sender: TObject);
     procedure btnSaveMatrixClick(Sender: TObject);
     procedure btnShowToolsClick(Sender: TObject);
@@ -133,6 +136,8 @@ var
   selectedCompId:integer=-1;
   selectedRestId:integer=-1;
   discsPath,compPath,resPath:string;
+  appManifestVer:integer=1; //update this each ti,e set of data is changed!!!
+  readManifestVer:integer=0; //get this from .sav file!!!
 
   nDisc,nComp,nResult:integer;
 
@@ -168,6 +173,8 @@ begin
   dTo.lab:=dFrom.lab;
   dTo.pract:=dFrom.pract;
   dTo.colour:=dFrom.colour;
+  dTo.freeChoice:=dFrom.freeChoice;
+  dTo.ignoreForMatrix:=dFrom.ignoreForMatrix;
   for i:=0 to 1000 do
   begin
     dTo.competIds[i]:=dFrom.competIds[i];
@@ -203,6 +210,8 @@ begin
         FormTools.edDiscLabWork.Text:=inttostr(lab);
         FormTools.edDiscPractice.Text:=inttostr(pract);
         FormTools.shpDiscColour.Brush.Color:=colour;
+        FormTools.cbFreeChoice.Checked:=freeChoice;
+        FormTools.cbIgnoreInMatrix.Checked:=ignoreForMatrix;
       end;
     end;
     if (selectedCompId<>-1) then
@@ -395,7 +404,8 @@ begin
   end;
 end;
 
-procedure TFormMain.updateDiscipline(id:integer; vName:string; vEdName:string; vSem:integer; vCred:integer; vLec:integer; vLab:integer; vPract:integer; clr:TColor);
+procedure TFormMain.updateDiscipline(id:integer; vName:string; vEdName:string; vSem:integer; vCred:integer; vLec:integer; vLab:integer; vPract:integer;
+  clr:TColor;vFreeChoice:boolean; vIgnoreMatrix:boolean);
 var cOp:integer;
 begin
   if (id>=nDisc) then
@@ -423,6 +433,8 @@ begin
       lab:=vLab;
       pract:=vPract;
       colour:=clr;
+      freeChoice:=vFreeChoice;
+      ignoreForMatrix:=vIgnoreMatrix;
     end;
   end;
 
@@ -575,7 +587,7 @@ end;
 
 procedure TFormMain.MenuItem9Click(Sender: TObject);
 begin
-  FormAbout.Show;;
+  FormAbout.Show;
 end;
 
 procedure TFormMain.btnOpenCompsClick(Sender: TObject);
@@ -812,6 +824,9 @@ begin
   AssignFile(cFile,fileName);
   Rewrite(cFile);
 
+  //declare file manifest version
+  WriteLn(cFile,appManifestVer);
+
   //first, write current sets of competences and results
   //force recalc all for safety
 
@@ -846,6 +861,8 @@ begin
     WriteLn(cFile,Red(colour));
     WriteLn(cFile,Green(colour));
     WriteLn(cFile,Blue(colour));
+    WriteLn(cFile,BoolToStr(freeChoice));
+    WriteLn(cFile,BoolToStr(ignoreForMatrix));
     for j:=0 to 1000 do
       WriteLn(cFile,BoolToStr(competIds[j]));
     for j:=0 to 1000 do
@@ -864,6 +881,7 @@ var cFile:TextFile;
     op,lr:integer;
     cLine:string;
     cRed, cGreen, cBlue:integer;
+    readOp:integer;
 begin
   AssignFile(cFile,fileName);
   Reset(cFile);
@@ -877,13 +895,24 @@ begin
   //read and interpret data line by line
   readMode:=-1; //start in ignore all read mode
 
+  readOp:=0;
+
   while not Eof(cFile) do
   begin
     ReadLn(cFile, cLine);
 
+    //manage manifest first
+    if (readOp=0) and (cLine='$') then readManifestVer:=0;
+
+    if (readOp=0) and (cLine<>'$') then
+    begin
+      readManifestVer:=strtoint(cLine);
+    end;
+
+    //now to regular reading
     if (cLine='$') then
     begin
-      inc(readMode);
+      inc(readMode); inc(readOp);
       op:=0; lr:=0;
       Continue;
     end;
@@ -902,76 +931,165 @@ begin
 
     if (readMode=2) then
     begin
-      case op of
-      0:begin
-          setlength(discs,length(discs)+1);
-          discs[High(discs)]:=TDiscipline.Create;
-          discs[High(discs)].name:=cLine;
-          inc(op);
-        end;
-      1:begin
-          discs[High(discs)].epedname:=cLine;
-          inc(op);
-        end;
-      2:begin
-          discs[High(discs)].semester:=StrToInt(cLine);
-          inc(op);
-        end;
-      3:begin
-          discs[High(discs)].credits:=StrToInt(cLine);
-          inc(op);
-        end;
-      4:begin
-          discs[High(discs)].lec:=StrToInt(cLine);
-          inc(op);
-        end;
-      5:begin
-          discs[High(discs)].lab:=StrToInt(cLine);
-          inc(op);
-        end;
-      6:begin
-          discs[High(discs)].pract:=StrToInt(cLine);
-          inc(op);
-        end;
-      7:begin
-          cRed:=StrToInt(cLine);
-          inc(op);
-        end;
-      8:begin
-          cGreen:=StrToInt(cLine);
-          inc(op);
-        end;
-      9:begin
-          cBlue:=StrToInt(cLine);
-          inc(op);
-        end;
-      10:begin
-          if (lr<=1000) then
-          begin
-            discs[High(discs)].competIds[lr]:=StrToBool(cLine);
-            inc(lr);
-          end;
-          if (lr>1000) then
-          begin
+      //fully reimplementing readmode 2 for each manifest version T__T
+      if (readManifestVer=0) then
+      begin
+        case op of
+        0:begin
+            setlength(discs,length(discs)+1);
+            discs[High(discs)]:=TDiscipline.Create;
+            discs[High(discs)].name:=cLine;
             inc(op);
-            lr:=0;
           end;
-        end;
-      11:begin
-          if (lr<=1000) then
-          begin
-            discs[High(discs)].resultIds[lr]:=StrToBool(cLine);
-            inc(lr);
-          end;
-          if (lr>1000) then
-          begin
+        1:begin
+            discs[High(discs)].epedname:=cLine;
             inc(op);
-            lr:=0;
-            op:=0;
+          end;
+        2:begin
+            discs[High(discs)].semester:=StrToInt(cLine);
+            inc(op);
+          end;
+        3:begin
+            discs[High(discs)].credits:=StrToInt(cLine);
+            inc(op);
+          end;
+        4:begin
+            discs[High(discs)].lec:=StrToInt(cLine);
+            inc(op);
+          end;
+        5:begin
+            discs[High(discs)].lab:=StrToInt(cLine);
+            inc(op);
+          end;
+        6:begin
+            discs[High(discs)].pract:=StrToInt(cLine);
+            inc(op);
+          end;
+        7:begin
+            cRed:=StrToInt(cLine);
+            inc(op);
+          end;
+        8:begin
+            cGreen:=StrToInt(cLine);
+            inc(op);
+          end;
+        9:begin
+            cBlue:=StrToInt(cLine);
+            inc(op);
+          end;
+        10:begin
+            if (lr<=1000) then
+            begin
+              discs[High(discs)].competIds[lr]:=StrToBool(cLine);
+              inc(lr);
+            end;
+            if (lr>1000) then
+            begin
+              inc(op);
+              lr:=0;
+            end;
+          end;
+        11:begin
+            if (lr<=1000) then
+            begin
+              discs[High(discs)].resultIds[lr]:=StrToBool(cLine);
+              inc(lr);
+            end;
+            if (lr>1000) then
+            begin
+              inc(op);
+              lr:=0;
+              op:=0;
+            end;
           end;
         end;
       end;
+
+      if (readManifestVer=1) then
+      begin
+        case op of
+        0:begin
+            setlength(discs,length(discs)+1);
+            discs[High(discs)]:=TDiscipline.Create;
+            discs[High(discs)].name:=cLine;
+            inc(op);
+          end;
+        1:begin
+            discs[High(discs)].epedname:=cLine;
+            inc(op);
+          end;
+        2:begin
+            discs[High(discs)].semester:=StrToInt(cLine);
+            inc(op);
+          end;
+        3:begin
+            discs[High(discs)].credits:=StrToInt(cLine);
+            inc(op);
+          end;
+        4:begin
+            discs[High(discs)].lec:=StrToInt(cLine);
+            inc(op);
+          end;
+        5:begin
+            discs[High(discs)].lab:=StrToInt(cLine);
+            inc(op);
+          end;
+        6:begin
+            discs[High(discs)].pract:=StrToInt(cLine);
+            inc(op);
+          end;
+        7:begin
+            cRed:=StrToInt(cLine);
+            inc(op);
+          end;
+        8:begin
+            cGreen:=StrToInt(cLine);
+            inc(op);
+          end;
+        9:begin
+            cBlue:=StrToInt(cLine);
+            discs[High(discs)].colour:=RGBToColor(cRed,cGreen,cBlue);
+            inc(op);
+          end;
+        10:begin
+            discs[High(discs)].freeChoice:=StrToBool(cLine);
+            inc(op);
+          end;
+        11:begin
+            discs[High(discs)].ignoreForMatrix:=StrToBool(cLine);
+            inc(op);
+          end;
+        12:begin
+            if (lr<=1000) then
+            begin
+              discs[High(discs)].competIds[lr]:=StrToBool(cLine);
+              inc(lr);
+            end;
+            if (lr>1000) then
+            begin
+              inc(op);
+              lr:=0;
+            end;
+          end;
+        13:begin
+            if (lr<=1000) then
+            begin
+              discs[High(discs)].resultIds[lr]:=StrToBool(cLine);
+              inc(lr);
+            end;
+            if (lr>1000) then
+            begin
+              inc(op);
+              lr:=0;
+              op:=0;
+            end;
+          end;
+        end;
+      end;
+
     end;
+
+    inc(readOp);
   end;
 
   //shutdown
