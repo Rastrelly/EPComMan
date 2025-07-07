@@ -2,6 +2,7 @@
 **/*.o
 **/*.ppu
 **/*.exe
+**/*.html
 **/*.bak
 **/*.diff
 **/*.patch
