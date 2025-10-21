@@ -9,7 +9,7 @@ object FormAbout: TFormAbout
   ClientHeight = 240
   ClientWidth = 361
   Position = poScreenCenter
-  LCLVersion = '4.0.0.4'
+  LCLVersion = '4.2.0.0'
   object Image1: TImage
     Left = 8
     Height = 128
@@ -70,8 +70,8 @@ object FormAbout: TFormAbout
       Left = 8
       Height = 45
       Top = 7
-      Width = 152
-      Caption = 'EP Competence Manager 1.0'#13#10#13#10'(c) 2025 Rastrelly'
+      Width = 161
+      Caption = 'EP Competence Manager 1.0.2'#13#10#13#10'(c) 2025 Rastrelly'
     end
   end
   object Button1: TButton
