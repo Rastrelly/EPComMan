@@ -12,13 +12,16 @@ type
 
   { TFormMain }
 
+  boolArr = array [0..1000] of boolean;
+  stringArr = array of string;
+
   TDiscipline = class
   public
     name,epedname:string;
     semester,credits,lec,pract,lab:integer;
     colour:TColor;
-    competIds:array [0..1000] of boolean;
-    resultIds:array [0..1000] of boolean;
+    competIds:boolArr;
+    resultIds:boolArr;
     freeChoice:boolean;
     ignoreForMatrix:boolean;
     constructor Create;
@@ -42,10 +45,16 @@ type
     ImgList: TImageList;
     LBDisciplines: TListBox;
     MainMenu1: TMainMenu;
+    memoCScroll: TMemo;
     MenuItem1: TMenuItem;
     MenuItem10: TMenuItem;
     MenuItem11: TMenuItem;
     MenuItem12: TMenuItem;
+    MenuItem13: TMenuItem;
+    miExtNone: TMenuItem;
+    miExtDiscs: TMenuItem;
+    miExtCompets: TMenuItem;
+    miExtendRes: TMenuItem;
     MenuItem2: TMenuItem;
     MenuItem3: TMenuItem;
     MenuItem4: TMenuItem;
@@ -63,6 +72,7 @@ type
     Panel2: TPanel;
     Panel3: TPanel;
     Panel4: TPanel;
+    panelText: TPanel;
     RBExtDisc: TRadioButton;
     RBExtComp: TRadioButton;
     RBExtRes: TRadioButton;
@@ -77,6 +87,10 @@ type
     procedure MenuItem6Click(Sender: TObject);
     procedure MenuItem7Click(Sender: TObject);
     procedure MenuItem9Click(Sender: TObject);
+    procedure miExtCompetsClick(Sender: TObject);
+    procedure miExtDiscsClick(Sender: TObject);
+    procedure miExtendResClick(Sender: TObject);
+    procedure miExtNoneClick(Sender: TObject);
     procedure updateDataManipData;
     procedure MoveComp(dir:integer; id:integer);
     procedure MoveRest(dir:integer; id:integer);
@@ -130,13 +144,13 @@ type
 
 var
   FormMain: TFormMain;
-  comps,rests:array of string;
+  comps,rests:stringArr;
   discs:array of TDiscipline;
   selectedDiscId:integer=-1;
   selectedCompId:integer=-1;
   selectedRestId:integer=-1;
   discsPath,compPath,resPath:string;
-  appManifestVer:integer=1; //update this each ti,e set of data is changed!!!
+  appManifestVer:integer=1; //update this each time set of data is changed!!!
   readManifestVer:integer=0; //get this from .sav file!!!
 
   nDisc,nComp,nResult:integer;
@@ -162,6 +176,7 @@ end;
 
 { TFormMain }
 
+//rewrite this for each new field in discipline
 procedure CloneDiscipline(var dFrom:TDiscipline; var dTo:TDiscipline);
 var i:integer;
 begin
@@ -195,7 +210,7 @@ end;
 //give data to toolbar
 procedure TFormMain.updateDataManipData;
 begin
-  //update only if tolbar is visible
+  //update only if toolbar is visible
   if FormTools.Visible then
   begin
     if (selectedDiscId<>-1) then
@@ -224,6 +239,7 @@ begin
     end;
   end;
 end;
+
 
 //would be good to rewrite these two properly but for now keep two
 //at once; too lazy to do abstraction ATM
@@ -413,6 +429,7 @@ begin
     SetLength(discs,length(discs)+1);
     nDisc:=length(discs);
     cOp:=High(discs);
+    discs[cOp]:=TDiscipline.Create;
   end
   else
   begin
@@ -422,7 +439,6 @@ begin
 
   if (cOp<>-1) then
   begin
-    discs[cOp]:=TDiscipline.Create;
     with discs[cOp] do
     begin
       name:=vName;
@@ -541,6 +557,7 @@ begin
   selectedDiscId:=LBDisciplines.ItemIndex;
   refreshDisciplineChecks(selectedDiscId);
   updateDataManipData;
+  if (LBDisciplines.ItemIndex>=0) then memoCScroll.Text:=LBDisciplines.Items[LBDisciplines.ItemIndex];
 end;
 
 procedure TFormMain.LBResultsClickCheck(Sender: TObject);
@@ -552,6 +569,7 @@ procedure TFormMain.LBCompetsClick(Sender: TObject);
 begin
   selectedCompId:=LBCompets.ItemIndex;
   updateDataManipData;
+  if (LBCompets.ItemIndex>=0) then memoCScroll.Text:=LBCompets.Items[LBCompets.ItemIndex];
 end;
 
 procedure TFormMain.btnExportMatrixClick(Sender: TObject);
@@ -563,6 +581,7 @@ procedure TFormMain.LBResultsClick(Sender: TObject);
 begin
   selectedRestId:=LBResults.ItemIndex;
   updateDataManipData;
+  if (LBResults.ItemIndex>=0) then memoCScroll.Text:=LBResults.Items[LBResults.ItemIndex];
 end;
 
 procedure TFormMain.MenuItem10Click(Sender: TObject);
@@ -588,6 +607,42 @@ end;
 procedure TFormMain.MenuItem9Click(Sender: TObject);
 begin
   FormAbout.Show;
+end;
+
+procedure TFormMain.miExtCompetsClick(Sender: TObject);
+begin
+  RBExtNone.Checked:=false;
+  RBExtDisc.Checked:=false;
+  RBExtComp.Checked:=true;
+  RBExtRes.Checked:=false;
+  ResizeProc;
+end;
+
+procedure TFormMain.miExtDiscsClick(Sender: TObject);
+begin
+  RBExtNone.Checked:=false;
+  RBExtDisc.Checked:=true;
+  RBExtComp.Checked:=false;
+  RBExtRes.Checked:=false;
+  ResizeProc;
+end;
+
+procedure TFormMain.miExtendResClick(Sender: TObject);
+begin
+  RBExtNone.Checked:=false;
+  RBExtDisc.Checked:=false;
+  RBExtComp.Checked:=false;
+  RBExtRes.Checked:=true;
+  ResizeProc;
+end;
+
+procedure TFormMain.miExtNoneClick(Sender: TObject);
+begin
+  RBExtNone.Checked:=true;
+  RBExtDisc.Checked:=false;
+  RBExtComp.Checked:=false;
+  RBExtRes.Checked:=false;
+  ResizeProc;
 end;
 
 procedure TFormMain.btnOpenCompsClick(Sender: TObject);

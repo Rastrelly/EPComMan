@@ -1,7 +1,7 @@
 object FormMain: TFormMain
-  Left = 455
+  Left = 322
   Height = 547
-  Top = 276
+  Top = 183
   Width = 820
   Caption = 'EP Competence Manager'
   ClientHeight = 547
@@ -9,17 +9,17 @@ object FormMain: TFormMain
   Constraints.MinWidth = 750
   Menu = MainMenu1
   Position = poScreenCenter
-  LCLVersion = '4.0.0.4'
+  LCLVersion = '4.2.0.0'
   OnCreate = FormCreate
   OnResize = FormResize
   object gbDisc: TGroupBox
     Left = 0
-    Height = 515
+    Height = 465
     Top = 32
     Width = 250
     Align = alLeft
     Caption = 'Components (Disciplines)'
-    ClientHeight = 495
+    ClientHeight = 445
     ClientWidth = 246
     TabOrder = 0
     object Panel2: TPanel
@@ -35,7 +35,7 @@ object FormMain: TFormMain
         Left = 1
         Height = 30
         Top = 1
-        Width = 54
+        Width = 53
         Align = alLeft
         Caption = 'Extend'
         TabOrder = 0
@@ -45,7 +45,7 @@ object FormMain: TFormMain
     end
     object LBDisciplines: TListBox
       Left = 0
-      Height = 463
+      Height = 413
       Top = 32
       Width = 246
       Align = alClient
@@ -57,12 +57,12 @@ object FormMain: TFormMain
   end
   object gbComp: TGroupBox
     Left = 250
-    Height = 515
+    Height = 465
     Top = 32
     Width = 250
     Align = alLeft
     Caption = 'Competencies'
-    ClientHeight = 495
+    ClientHeight = 445
     ClientWidth = 246
     TabOrder = 1
     object Panel3: TPanel
@@ -78,7 +78,7 @@ object FormMain: TFormMain
         Left = 1
         Height = 30
         Top = 1
-        Width = 54
+        Width = 53
         Align = alLeft
         Caption = 'Extend'
         TabOrder = 0
@@ -88,7 +88,7 @@ object FormMain: TFormMain
     end
     object LBCompets: TCheckListBox
       Left = 0
-      Height = 463
+      Height = 413
       Top = 32
       Width = 246
       Align = alClient
@@ -101,12 +101,12 @@ object FormMain: TFormMain
   end
   object gbRes: TGroupBox
     Left = 500
-    Height = 515
+    Height = 465
     Top = 32
     Width = 250
     Align = alLeft
     Caption = 'Results'
-    ClientHeight = 495
+    ClientHeight = 445
     ClientWidth = 246
     TabOrder = 2
     object Panel4: TPanel
@@ -122,7 +122,7 @@ object FormMain: TFormMain
         Left = 1
         Height = 30
         Top = 1
-        Width = 54
+        Width = 53
         Align = alLeft
         Caption = 'Extend'
         TabOrder = 0
@@ -132,7 +132,7 @@ object FormMain: TFormMain
     end
     object LBResults: TCheckListBox
       Left = 0
-      Height = 463
+      Height = 413
       Top = 32
       Width = 246
       Align = alClient
@@ -228,7 +228,7 @@ object FormMain: TFormMain
       Left = 225
       Height = 30
       Top = 1
-      Width = 84
+      Width = 83
       Align = alLeft
       Caption = 'Extend none'
       Checked = True
@@ -248,6 +248,26 @@ object FormMain: TFormMain
       ImageIndex = 6
       ImageWidth = 32
       OnClick = btnShowToolsClick
+    end
+  end
+  object panelText: TPanel
+    Left = 0
+    Height = 50
+    Top = 497
+    Width = 820
+    Align = alBottom
+    ClientHeight = 50
+    ClientWidth = 820
+    TabOrder = 4
+    object memoCScroll: TMemo
+      Left = 1
+      Height = 48
+      Top = 1
+      Width = 818
+      Align = alClient
+      ReadOnly = True
+      ScrollBars = ssVertical
+      TabOrder = 0
     end
   end
   object ODDisciplines: TOpenDialog
@@ -332,6 +352,25 @@ object FormMain: TFormMain
         Caption = 'Close Program'
         ShortCut = 16472
         OnClick = MenuItem7Click
+      end
+    end
+    object MenuItem13: TMenuItem
+      Caption = 'View'
+      object miExtNone: TMenuItem
+        Caption = 'Extend None'
+        OnClick = miExtNoneClick
+      end
+      object miExtDiscs: TMenuItem
+        Caption = 'Extend Components'
+        OnClick = miExtDiscsClick
+      end
+      object miExtCompets: TMenuItem
+        Caption = 'Extend Competencies'
+        OnClick = miExtCompetsClick
+      end
+      object miExtendRes: TMenuItem
+        Caption = 'Extend Results'
+        OnClick = miExtendResClick
       end
     end
     object MenuItem11: TMenuItem

@@ -92,6 +92,7 @@ begin
     resTitles[i]:=makeHeader(rests[i],shortRest);
   end;
   //step 3 - prep main arrays
+  SetLength(outMatrix,0);
   SetLength(outMatrix,nResult);
   for i:=0 to nResult-1 do SetLength(outMatrix[i],nComp);
   //step 4 - parse all results for disiplines, then finad all disciplines
@@ -105,7 +106,7 @@ begin
     for k:=0 to nDisc-1 do
     begin
       inc(hitsRes);
-      if discs[k].resultIds[i] then
+      if (discs[k].resultIds[i]) and (not discs[k].ignoreForMatrix) then
       begin
         //and if it does, find all competences it has
         hitsComp:=0;
